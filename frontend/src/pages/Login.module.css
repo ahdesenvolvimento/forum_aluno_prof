@@ -1,0 +1,16 @@
+.main {
+    position: absolute;
+    left: 50%;
+    top: 35%;
+    transform: translateX(-50%);
+    background-color: #f1f1f1;
+    /* height: 350px; */
+    width: 450px;
+}
+
+.main form {
+    height: 350px;
+    background-color: red;
+    /* display: flex; */
+    
+}

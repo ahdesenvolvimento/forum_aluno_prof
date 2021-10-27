@@ -1,0 +1,23 @@
+.formGroup{
+    display: flex;
+    flex-direction: column;
+}
+
+.formGroup label {
+    font-size: 15px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    margin-bottom: 5px;
+    margin-top: 5px;
+}
+
+.formStyle:focus{
+    box-shadow: 0 0 0.45em black;
+    /* border: 0 none; */
+    outline: 0;
+}
+
+.formStyle {
+    border-radius: 5px;
+    border: 1px gainsboro solid;
+    height: 40px;
+}
