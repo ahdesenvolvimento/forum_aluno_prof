@@ -1,6 +1,7 @@
 from django.db import models
 from django.db.models.expressions import F
 from django.contrib.auth.models import BaseUserManager, AbstractUser
+import uuid
 
 
 class BaseManager(BaseUserManager):
@@ -31,7 +32,7 @@ class BaseManager(BaseUserManager):
 
         return self._create_user(username, password, **extrafields)
 
-
+    
 class Created(models.Model):
     data = models.DateField(auto_now_add=True, blank=True, null=True)
     hora = models.TimeField(auto_now_add=True, blank=True, null=True)
@@ -50,13 +51,13 @@ class Perfil(Created):
 
 class Usuario(AbstractUser):
     # id = models.AutoField(primary_key=True)
-    nome = models.CharField(max_length=255, blank=False, null=False)
+    # nome = models.CharField(max_length=255, blank=False, null=False)
     email = models.EmailField(
         max_length=255, blank=False, null=False, unique=True)
     status = models.BooleanField(default=True)
 
-    USERNAME_FIELD = 'username'
-    REQUIRED_FIELDS = ['nome', 'email']
+    USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = ['username','first_name', 'last_name']
     objects = BaseManager()
 
     class Meta:
@@ -76,12 +77,12 @@ class UsuarioPerfil(Created):
 
 class Sala(Created):
     id = models.AutoField(primary_key=True)
-    codigo_sala = models.UUIDField(auto_created=True, blank=True, null=True)
+    codigo_sala = models.UUIDField(default=uuid.uuid4, blank=True, null=True)
     entrar = models.BooleanField(default=True, blank=True, null=True)
     descricao = models.TextField(blank=False, null=False)
     tags = models.CharField(max_length=500, blank=True, null=True)
     dono = models.ForeignKey(
-        Usuario, null=False, blank=False, on_delete=models.CASCADE)
+        Usuario, null=True, blank=False, on_delete=models.CASCADE)
 
     class Meta:
         db_table = 'sala'
