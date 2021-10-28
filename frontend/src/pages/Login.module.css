@@ -1,16 +1,18 @@
 .main {
     position: absolute;
     left: 50%;
-    top: 35%;
+    top: 25%;
+    font-family: serif;
     transform: translateX(-50%);
     background-color: #f1f1f1;
+    font-weight: bold;
     /* height: 350px; */
+    border-radius: 15px;
     width: 450px;
 }
 
 .main form {
     height: 350px;
-    background-color: red;
     /* display: flex; */
     
 }

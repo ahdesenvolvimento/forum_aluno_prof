@@ -1,6 +1,9 @@
 import { Container, Navbar as Navigation, Nav } from "react-bootstrap";
 import { BrowserRouter as Router, Link, Switch, Route } from "react-router-dom";
 import Login from "../pages/Login";
+import Cadastro from "../pages/Cadastro";
+import Home from "../pages/Home";
+import Error404 from "../pages/Error404";
 function Navbar({colorBack}){
 
     return (
@@ -24,8 +27,17 @@ function Navbar({colorBack}){
                 </Container>
             </header>
             <Switch>
+                <Route exact path="/">
+                    <Home />
+                </Route>
                 <Route exact path="/login">
                     <Login />
+                </Route>
+                <Route path="/cadastro">
+                    <Cadastro />
+                </Route>
+                <Route path="*">
+                    <Error404 />
                 </Route>
             </Switch>
         </Router>
