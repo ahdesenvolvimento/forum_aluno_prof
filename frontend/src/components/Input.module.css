@@ -1,6 +1,7 @@
 .formGroup{
     display: flex;
     flex-direction: column;
+    justify-content: center;
 }
 
 .formGroup label {
@@ -20,4 +21,5 @@
     border-radius: 5px;
     border: 1px gainsboro solid;
     height: 40px;
+    width: 275px;
 }

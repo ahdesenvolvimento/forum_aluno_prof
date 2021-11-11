@@ -10,34 +10,40 @@ function Salas() {
 
   const content = (
     <div>
-      <div className="row">
-        <div className="col-md-12 mb-3">
-          <Input
-            name="enter_room"
-            placeHolder="Código da sala"
-            id="enter_room"
-            type="text"
-            text="Entrar em uma sala"
-          />
-        </div>
-        <div className="col-md-12 mb-3">
-          <Button
-            type="submit"
-            text="Entrar na sala"
-            className="btn btn-primary"
-          />
-        </div>
-        <div className="col-md-12 mb-3">
-          <h4>Ou</h4>
-        </div>
-        <div className="col-md-12 mb-3">
-          <h4>Crie sua própria sala</h4>
-          <Button
-            type="submit"
-            text="Criar sala"
-            className="btn btn-outline-primary"
-            onClick={handleShow}
-          />
+      <div className="card">
+        <div className="card-body" style={{minHeight: '88vh'}}>
+          <div className="row">
+            <div className="col-md-12 mb-3 d-flex justify-content-center">
+              <Input
+                name="enter_room"
+                placeHolder="Código da sala"
+                id="enter_room"
+                type="text"
+                text="Entrar em uma sala"
+              />
+            </div>
+            <div className="col-md-12 mb-3 d-flex justify-content-center">
+              <Button
+                type="submit"
+                text="Entrar na sala"
+                className="btn btn-primary"
+              />
+            </div>
+            <div className="col-md-12 mb-3 text-center">
+              <hr />
+              <h4>Ou</h4>
+              <hr />
+            </div>
+            <div className="col-md-12 mb-3 text-center">
+              <h4>Crie sua própria sala</h4>
+              <Button
+                type="submit"
+                text="Criar sala"
+                className="btn btn-outline-primary mt-3"
+                onClick={handleShow}
+              />
+            </div>
+          </div>
         </div>
       </div>
       <Modal
@@ -47,7 +53,7 @@ function Salas() {
         keyboard={false}
       >
         <Modal.Header closeButton>
-          <Modal.Title>Modal title</Modal.Title>
+          <Modal.Title>Criar sala</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Input
@@ -59,15 +65,11 @@ function Salas() {
           />
         </Modal.Body>
         <Modal.Footer>
+          <Button type="submit" text="Criar" className="btn btn-primary" />
           <Button
-            type="submit"
-            text="Criar"
-            className="btn btn-primary"
-          />
-          <Button 
-            className="btn btn-secondary" 
-            type="button" 
-            text="Fechar" 
+            className="btn btn-secondary"
+            type="button"
+            text="Fechar"
             onClick={handleClose}
           />
           {/* <Button variant="secondary" onClick={handleClose}>
