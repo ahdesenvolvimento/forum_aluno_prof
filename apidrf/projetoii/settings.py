@@ -46,6 +46,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -148,3 +149,6 @@ X_FRAME_OPTIONS = 'DENY'
 SECURE_HSTS_PRELOAD = True
 
 SECURE_SSL_REDIRECT = False
+# CORS_ORIGIN_WHITELIST = ['https://localhost:5500', 'http://127.0.0.1:5500']
+CORS_ORIGIN_ALLOW_ALL = True
+# CORS_ALLOW_HEADERS = ("x-requested-with", "content-type", "accept", "origin", "authorization", "x-csrftoken")

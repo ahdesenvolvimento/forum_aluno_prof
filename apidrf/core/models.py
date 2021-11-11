@@ -124,7 +124,8 @@ class PerguntaSala(Created):
 class Resposta(Created):
     id = models.AutoField(primary_key=True)
     resposta = models.TextField()
-    usuario = models.ForeignKey(Usuario, null=True, blank=True)
+    usuario = models.ForeignKey(
+        Usuario, null=True, blank=True, on_delete=models.CASCADE)
     status = models.BooleanField(default=False)
 
     class Meta:
@@ -133,8 +134,10 @@ class Resposta(Created):
 
 class PerguntaResposta(Created):
     id = models.AutoField(primary_key=True)
-    id_pergunta = models.ForeignKey(PerguntaSala, null=True, blank=True)
-    id_resposta = models.ForeignKey(Resposta, null=True, blank=True)
+    id_pergunta = models.ForeignKey(
+        PerguntaSala, null=True, blank=True, on_delete=models.CASCADE)
+    id_resposta = models.ForeignKey(
+        Resposta, null=True, blank=True, on_delete=models.CASCADE)
 
     class Meta:
         db_table = 'pergunta_resposta'
@@ -146,7 +149,8 @@ class Postagem(Created):
     tags = models.CharField(max_length=255, null=True, blank=True)
     corpo = models.TextField()
     status = models.BooleanField(default=False)
-    dono = models.ForeignKey(Usuario, null=False, blank=False)
+    dono = models.ForeignKey(
+        Usuario, null=False, blank=False, on_delete=models.CASCADE)
 
     class Meta:
         db_table = 'postagem'

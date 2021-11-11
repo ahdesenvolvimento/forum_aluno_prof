@@ -4,7 +4,7 @@ from .models import *
 class UsuarioSerializer(serializers.ModelSerializer):
     class Meta:
         model = Usuario
-        fields = ('first_name', 'last_name', 'username', 'password')
+        fields = ('first_name', 'last_name', 'username', 'password', 'email')
 
     # def create(self, vali)
 

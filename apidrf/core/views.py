@@ -13,6 +13,9 @@ def index(request):
 @api_view(['GET', 'POST'])
 def create_usuario(request):
     print(Usuario.objects.all())
+    for i in Usuario.objects.all():
+        print(i.email)
+    print(request.data)
     # user = Usuario.objects.create(username="123", email="teste2sad123121@gmail.com", nome="nome", password="1231321321")
     dados_usuario = request.data
     if request.method == 'POST':
