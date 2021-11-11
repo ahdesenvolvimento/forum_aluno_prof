@@ -32,7 +32,7 @@ class BaseManager(BaseUserManager):
 
         return self._create_user(username, password, **extrafields)
 
-    
+
 class Created(models.Model):
     data = models.DateField(auto_now_add=True, blank=True, null=True)
     hora = models.TimeField(auto_now_add=True, blank=True, null=True)
@@ -41,12 +41,12 @@ class Created(models.Model):
         abstract = True
 
 
-class Perfil(Created):
-    id = models.AutoField(primary_key=True)
-    perfil = models.CharField(max_length=255, blank=False, null=False)
+# class Perfil(Created):
+#     id = models.AutoField(primary_key=True)
+#     perfil = models.CharField(max_length=255, blank=False, null=False)
 
-    class Meta:
-        db_table = 'perfil'
+#     class Meta:
+#         db_table = 'perfil'
 
 
 class Usuario(AbstractUser):
@@ -57,22 +57,22 @@ class Usuario(AbstractUser):
     status = models.BooleanField(default=True)
 
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['username','first_name', 'last_name']
+    REQUIRED_FIELDS = ['username', 'first_name', 'last_name']
     objects = BaseManager()
 
     class Meta:
         db_table = 'usuario'
 
 
-class UsuarioPerfil(Created):
-    id = models.AutoField(primary_key=True)
-    id_usuario = models.ForeignKey(
-        Usuario, on_delete=models.CASCADE, null=True, blank=True)
-    id_perfil = models.ForeignKey(
-        Perfil, on_delete=models.CASCADE, null=True, blank=True)
+# class UsuarioPerfil(Created):
+#     id = models.AutoField(primary_key=True)
+#     id_usuario = models.ForeignKey(
+#         Usuario, on_delete=models.CASCADE, null=True, blank=True)
+#     id_perfil = models.ForeignKey(
+#         Perfil, on_delete=models.CASCADE, null=True, blank=True)
 
-    class Meta:
-        db_table = 'usuario_perfil'
+#     class Meta:
+#         db_table = 'usuario_perfil'
 
 
 class Sala(Created):
@@ -120,4 +120,39 @@ class PerguntaSala(Created):
     class Meta:
         db_table = 'pergunta_sala'
 
+
+class Resposta(Created):
+    id = models.AutoField(primary_key=True)
+    resposta = models.TextField()
+    usuario = models.ForeignKey(Usuario, null=True, blank=True)
+    status = models.BooleanField(default=False)
+
+    class Meta:
+        db_table = 'resposta'
+
+
+class PerguntaResposta(Created):
+    id = models.AutoField(primary_key=True)
+    id_pergunta = models.ForeignKey(PerguntaSala, null=True, blank=True)
+    id_resposta = models.ForeignKey(Resposta, null=True, blank=True)
+
+    class Meta:
+        db_table = 'pergunta_resposta'
+
+
+class Postagem(Created):
+    id = models.AutoField(primary_key=True)
+    titulo = models.CharField(max_length=255, null=False, blank=False)
+    tags = models.CharField(max_length=255, null=True, blank=True)
+    corpo = models.TextField()
+    status = models.BooleanField(default=False)
+    dono = models.ForeignKey(Usuario, null=False, blank=False)
+
+    class Meta:
+        db_table = 'postagem'
+
+# class UsuarioPostagem(Created):
+#     id = models.AutoField(primary_key=True)
+#     id_postagem = models.ForeignKey(PerguntaSala, null=True, blank=True)
+#     id_resposta = models.ForeignKey(Resposta, null=True, blank=True)
 # class Postagem
