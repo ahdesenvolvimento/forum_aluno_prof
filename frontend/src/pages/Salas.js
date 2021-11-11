@@ -63,6 +63,20 @@ function Salas() {
             type="password"
             text="Crie sua própria sala"
           />
+          <Input
+            name="descricao"
+            placeHolder="Descrição da sala"
+            id="descricao"
+            type="text"
+            text="Descreva sua sala"
+          />
+          <Input
+            name="tags"
+            placeHolder="Tags da sala"
+            id="tags"
+            type="text"
+            text="Insira as TAGS separadas por hifén (-)"
+          />
         </Modal.Body>
         <Modal.Footer>
           <Button type="submit" text="Criar" className="btn btn-primary" />
