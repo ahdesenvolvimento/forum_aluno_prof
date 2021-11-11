@@ -1,6 +1,7 @@
 from django.db import models
 from django.db.models.expressions import F
 from django.contrib.auth.models import BaseUserManager, AbstractUser
+import uuid
 
 
 class BaseManager(BaseUserManager):
@@ -40,48 +41,48 @@ class Created(models.Model):
         abstract = True
 
 
-class Perfil(Created):
-    id = models.AutoField(primary_key=True)
-    perfil = models.CharField(max_length=255, blank=False, null=False)
+# class Perfil(Created):
+#     id = models.AutoField(primary_key=True)
+#     perfil = models.CharField(max_length=255, blank=False, null=False)
 
-    class Meta:
-        db_table = 'perfil'
+#     class Meta:
+#         db_table = 'perfil'
 
 
 class Usuario(AbstractUser):
     # id = models.AutoField(primary_key=True)
-    nome = models.CharField(max_length=255, blank=False, null=False)
+    # nome = models.CharField(max_length=255, blank=False, null=False)
     email = models.EmailField(
         max_length=255, blank=False, null=False, unique=True)
     status = models.BooleanField(default=True)
 
-    USERNAME_FIELD = 'username'
-    REQUIRED_FIELDS = ['nome', 'email']
+    USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = ['username', 'first_name', 'last_name']
     objects = BaseManager()
 
     class Meta:
         db_table = 'usuario'
 
 
-class UsuarioPerfil(Created):
-    id = models.AutoField(primary_key=True)
-    id_usuario = models.ForeignKey(
-        Usuario, on_delete=models.CASCADE, null=True, blank=True)
-    id_perfil = models.ForeignKey(
-        Perfil, on_delete=models.CASCADE, null=True, blank=True)
+# class UsuarioPerfil(Created):
+#     id = models.AutoField(primary_key=True)
+#     id_usuario = models.ForeignKey(
+#         Usuario, on_delete=models.CASCADE, null=True, blank=True)
+#     id_perfil = models.ForeignKey(
+#         Perfil, on_delete=models.CASCADE, null=True, blank=True)
 
-    class Meta:
-        db_table = 'usuario_perfil'
+#     class Meta:
+#         db_table = 'usuario_perfil'
 
 
 class Sala(Created):
     id = models.AutoField(primary_key=True)
-    codigo_sala = models.UUIDField(auto_created=True, blank=True, null=True)
+    codigo_sala = models.UUIDField(default=uuid.uuid4, blank=True, null=True)
     entrar = models.BooleanField(default=True, blank=True, null=True)
     descricao = models.TextField(blank=False, null=False)
     tags = models.CharField(max_length=500, blank=True, null=True)
     dono = models.ForeignKey(
-        Usuario, null=False, blank=False, on_delete=models.CASCADE)
+        Usuario, null=True, blank=False, on_delete=models.CASCADE)
 
     class Meta:
         db_table = 'sala'
@@ -119,4 +120,39 @@ class PerguntaSala(Created):
     class Meta:
         db_table = 'pergunta_sala'
 
+
+class Resposta(Created):
+    id = models.AutoField(primary_key=True)
+    resposta = models.TextField()
+    usuario = models.ForeignKey(Usuario, null=True, blank=True)
+    status = models.BooleanField(default=False)
+
+    class Meta:
+        db_table = 'resposta'
+
+
+class PerguntaResposta(Created):
+    id = models.AutoField(primary_key=True)
+    id_pergunta = models.ForeignKey(PerguntaSala, null=True, blank=True)
+    id_resposta = models.ForeignKey(Resposta, null=True, blank=True)
+
+    class Meta:
+        db_table = 'pergunta_resposta'
+
+
+class Postagem(Created):
+    id = models.AutoField(primary_key=True)
+    titulo = models.CharField(max_length=255, null=False, blank=False)
+    tags = models.CharField(max_length=255, null=True, blank=True)
+    corpo = models.TextField()
+    status = models.BooleanField(default=False)
+    dono = models.ForeignKey(Usuario, null=False, blank=False)
+
+    class Meta:
+        db_table = 'postagem'
+
+# class UsuarioPostagem(Created):
+#     id = models.AutoField(primary_key=True)
+#     id_postagem = models.ForeignKey(PerguntaSala, null=True, blank=True)
+#     id_resposta = models.ForeignKey(Resposta, null=True, blank=True)
 # class Postagem
