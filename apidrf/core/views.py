@@ -12,11 +12,6 @@ def index(request):
 
 @api_view(['GET', 'POST'])
 def create_usuario(request):
-    print(Usuario.objects.all())
-    for i in Usuario.objects.all():
-        print(i.email)
-    print(request.data)
-    # user = Usuario.objects.create(username="123", email="teste2sad123121@gmail.com", nome="nome", password="1231321321")
     dados_usuario = request.data
     if request.method == 'POST':
         serializer = UsuarioSerializer(data=dados_usuario, many=False)
@@ -29,14 +24,35 @@ def create_usuario(request):
 def delete_usuario(request, id):
     return JsonResponse({'testando':'testando'}, status=200, safe=False)
 
+
+
+@api_view(['GET'])
+def view_sala(request, id):
+    dados_sala = request.data
+    if request.method == 'GET':
+        print(id)
+        # serializer = CheckSala(data=dados_sala, many=False)
+        # if serializer.is_valid():
+        #     serializer.save()
+        # return JsonResponse({'testando':'testando'}, status=200, safe=False)
+    return JsonResponse({'testando':'testando'}, status=200, safe=False)
+
+
 @api_view(['POST', 'GET'])
 def create_sala(request):
     dados_sala = request.data
+    print(Sala.objects.all())
     if request.method == 'POST':
         serializer = SalaSerializer(data=dados_sala, many=False)
         if serializer.is_valid():
             serializer.save()
         return JsonResponse({'testando':'testando'}, status=200, safe=False)
+    if request.method == 'GET':
+        print(request.data)
+        # serializer = CheckSala(data=dados_sala, many=False)
+        # if serializer.is_valid():
+        #     serializer.save()
+        # return JsonResponse({'testando':'testando'}, status=200, safe=False)
     return JsonResponse({'testando':'testando'}, status=200, safe=False)
 
 @api_view(['DELETE'])

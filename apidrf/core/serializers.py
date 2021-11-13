@@ -12,3 +12,8 @@ class SalaSerializer(serializers.ModelSerializer):
     class Meta:
         model = Sala
         fields = ['entrar', 'descricao', 'tags', 'dono']
+
+class CheckSala(serializers.ModelSerializer):
+    class Meta:
+        model = Sala
+        fields = ['codigo_sala']
