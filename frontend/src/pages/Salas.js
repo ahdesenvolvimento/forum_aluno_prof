@@ -3,10 +3,12 @@ import Input from "../components/Input";
 import Button from "../components/Button";
 import { Modal } from "react-bootstrap";
 import { useState } from "react";
+import { useHistory } from "react-router-dom";
 function Salas() {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+  let history = useHistory()
 
   const [descricao, setDescricao] = useState();
   const [tags, setTags] = useState();
@@ -20,7 +22,7 @@ function Salas() {
       dono: "1",
     };
     const init = {
-      method: "GET",
+      method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
@@ -30,8 +32,11 @@ function Salas() {
   }
 
   async function checkSala(e) {
+    
     e.preventDefault();
-    await fetch("http://localhost:8000/sala/"+enter_room);
+    const response = await fetch("http://localhost:8000/sala/" + enter_room);
+    response.status === 200 ? history.push('/salas/'+enter_room) : history.push('/salas');
+    // console.log(resposta);
   }
 
   const content = (
