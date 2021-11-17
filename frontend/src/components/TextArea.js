@@ -1,6 +1,6 @@
 import styles from './TextArea.module.css'
 
-function TextArea({ nome, id, cols, rows, placeholder }) {
+function TextArea({ nome, id, cols, rows, placeholder, onChange }) {
   return (
     <>
       
@@ -11,6 +11,7 @@ function TextArea({ nome, id, cols, rows, placeholder }) {
         rows={rows}
         placeholder={placeholder}
         className={styles.formStyle}
+        onChange={onChange}
       ></textarea>
     </>
   );

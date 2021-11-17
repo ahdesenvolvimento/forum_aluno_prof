@@ -3,31 +3,48 @@ import Main from "../layout/Main";
 import Button from "../components/Button";
 import TextArea from "../components/TextArea";
 import Perguntas from "../components/Perguntas";
+import { useState } from "react";
+import { useEffect } from "react";
 function Sala(props) {
   const { id } = useParams();
-  async function cadastrarPergunta(e){
-    e.preventDefault()
-    const pergunta = {
-      titulo:'123',
-      corpo:pergunta,
-      tags:'12312312'
-    }
+  const [pergunta, setPergunta] = useState();
+  const [perguntas, setPerguntas] = useState();
+  async function cadastrarPergunta(e) {
+    e.preventDefault();
+    const dados = {
+      titulo: "123",
+      corpo: pergunta,
+      tags: "12312312",
+      id: id,
+    };
     const init = {
-      method:"POST",
-      headers:{
-        'Content-Type':'application/json'
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
       },
-      body:JSON.stringify(pergunta)
-    }
-    await fetch('localhost:8000/pergunta')
-
+      body: JSON.stringify(dados),
+    };
+    
   }
+
+  useEffect(() => {
+    async function getPerguntas(){
+      const response = await fetch("http://localhost:8000/pergunta/"+id);
+      console.log(response.json())
+    }
+    getPerguntas();
+    console.log('teste')
+  });
   const content = (
     <div>
       <div className="card">
         <div className="card-body">
           <div className="row">
-            <form action="" method="POST" onSubmit={(e) => cadastrarPergunta(e)}>
+            <form
+              action=""
+              method="POST"
+              onSubmit={(e) => cadastrarPergunta(e)}
+            >
               <div className="col-md-12">
                 <h4>Faça sua pergunta</h4>
                 <TextArea
@@ -37,6 +54,7 @@ function Sala(props) {
                   rows="10"
                   placeholder="Pergunte o que desejar"
                   className="form-control"
+                  onChange={(e) => setPergunta(e.target.value)}
                 />
                 <Button
                   type="submit"
