@@ -1,81 +1,26 @@
-function Perguntas({ perguntas }) {
+import { Link } from "react-router-dom";
+import Button from "./Button";
+
+function Perguntas({ data }) {
+  console.log(data);
   return (
     <>
-      <div className="col-md-12">
-        <div className="card">
-          <div className="card-body">
-            <span>
-              <i className="fas fa-user"></i>
-            </span>
-            Opa, tudo bom?
-          </div>
-          <div className="card-footer">
-            <a href="/">Marcar como lida</a>
-            <a href="/">Excluir</a>
-          </div>
-        </div>
-      </div>
-      <div className="col-md-12">
-        <div className="card">
-          <div className="card-body">
-            <span>
-              <i className="fas fa-user"></i>
-            </span>
-            Opa, tudo bom?
-          </div>
-          <div className="card-footer">
-            <a href="/">Marcar como lida</a>
-            <a href="/">Excluir</a>
+      {data.map((pergunta) => (
+        <div className="col-md-12" key={pergunta.id}>
+          <div className="card">
+            <div className="card-body">
+              <span>
+                <i className="fas fa-user"></i>
+              </span>
+              <p>{pergunta.corpo}</p>
+            </div>
+            <div className="card-footer">
+              <button type="button" data-id={pergunta.id} className="btn btn-primary mx-2">Marcar como lida</button>
+              <button type="button" data-id={pergunta.id} className="btn btn-outline-primary">Excluir</button>
+            </div>
           </div>
         </div>
-      </div>
-      <div className="col-md-12">
-        <div className="card">
-          <div className="card-body">
-            <span>
-              <i className="fas fa-user"></i>
-            </span>
-            Opa, tudo bom?Opa, tudo bom?Opa, tudo bom?Opa, tudo bom?Opa, tudo
-            bom?Opa, tudo bom?Opa, tudo bom?Opa, tudo bom?Opa, tudo bom?Opa,
-            tudo bom?Opa, tudo bom?Opa, tudo bom?Opa, tudo bom?Opa, tudo
-            bom?Opa, tudo bom?Opa, tudo bom?Opa, tudo bom?Opa, tudo bom?Opa,
-            tudo bom?Opa, tudo bom?Opa, tudo bom?Opa, tudo bom?Opa, tudo
-            bom?Opa, tudo bom?Opa, tudo bom?Opa, tudo bom?Opa, tudo bom?Opa,
-            tudo bom?Opa, tudo bom?Opa, tudo bom?Opa, tudo bom?Opa, tudo
-            bom?Opa, tudo bom?Opa, tudo bom?Opa, tudo bom?Opa, tudo bom?Opa,
-            tudo bom?Opa, tudo bom?Opa, tudo bom?Opa, tudo bom?Opa, tudo
-            bom?Opa, tudo bom?Opa, tudo bom?Opa, tudo bom?Opa, tudo bom?Opa,
-            tudo bom?Opa, tudo bom?Opa, tudo bom?Opa, tudo bom?Opa, tudo
-            bom?Opa, tudo bom?Opa, tudo bom?Opa, tudo bom?Opa, tudo bom?Opa,
-            tudo bom?Opa, tudo bom?Opa, tudo bom?Opa, tudo bom?Opa, tudo
-            bom?Opa, tudo bom?Opa, tudo bom?Opa, tudo bom?Opa, tudo bom?Opa,
-            tudo bom?Opa, tudo bom?Opa, tudo bom?Opa, tudo bom?Opa, tudo
-            bom?Opa, tudo bom?Opa, tudo bom?Opa, tudo bom?Opa, tudo bom?Opa,
-            tudo bom?Opa, tudo bom?Opa, tudo bom?Opa, tudo bom?Opa, tudo
-            bom?Opa, tudo bom?Opa, tudo bom?Opa, tudo bom?Opa, tudo bom?Opa,
-            tudo bom?Opa, tudo bom?Opa, tudo bom?Opa, tudo bom?Opa, tudo
-            bom?Opa, tudo bom?Opa, tudo bom?Opa, tudo bom?Opa, tudo bom?
-          </div>
-          <div className="card-footer">
-            <a href="/#">Marcar como lida</a>
-            <a href="/#">Excluir</a>
-          </div>
-        </div>
-      </div>
-      <div className="col-md-12">
-        <div className="card">
-          <div className="card-body">
-            <span>
-              <i className="fas fa-user"></i>
-            </span>
-            Opa, tudo bom?
-          </div>
-          <div className="card-footer">
-            <a href="/#">Marcar como lida</a>
-            <a href="/#">Excluir</a>
-          </div>
-        </div>
-      </div>
+      ))}
     </>
   );
 }

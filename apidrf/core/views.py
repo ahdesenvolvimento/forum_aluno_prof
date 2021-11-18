@@ -1,5 +1,5 @@
 from django.http.response import JsonResponse
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, render
 from rest_framework.decorators import api_view
 from .serializers import *
 from .models import *
@@ -78,7 +78,7 @@ def create_pergunta(request):
         pergunta = Perguntas.objects.create(
             titulo=dados_pergunta['titulo'], corpo=dados_pergunta['corpo'], tags=dados_pergunta['tags'])
         pergunta_sala = PerguntaSala.objects.create(
-            id_pergunta=pergunta, id_sala=Sala.objects.get(dados_pergunta['id']))
+            id_pergunta=pergunta, id_sala=Sala.objects.get(id=dados_pergunta['id']))
         print(PerguntaSala.objects.all())
         # serializer = SalaSerializer(data=dados_sala, many=False)
         # if serializer.is_valid():
@@ -98,6 +98,14 @@ def view_perguntas(request, id):
     if request.method == 'GET':
         perguntas = PerguntasSerializer(Perguntas.objects.all(), many=True)
         return JsonResponse({'perguntas': perguntas.data}, status=200, safe=False)
+
+@api_view(['DELETE'])
+def delete_pergunta(request, id):
+    if request.method == 'DELETE':
+        pergunta = get_object_or_404(Perguntas, id)
+        pergunta.delete()
+        # perguntas = PerguntasSerializer(Perguntas.objects.all(), many=True)
+        return JsonResponse({'perguntas': 'deletada'}, status=200, safe=False)
 
 # def create_usuario(request):
 #     print(Usuario.objects.all())

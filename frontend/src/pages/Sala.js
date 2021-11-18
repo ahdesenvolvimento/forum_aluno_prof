@@ -8,7 +8,7 @@ import { useEffect } from "react";
 function Sala(props) {
   const { id } = useParams();
   const [pergunta, setPergunta] = useState();
-  const [perguntas, setPerguntas] = useState();
+  const [perguntas, setPerguntas] = useState([]);
   async function cadastrarPergunta(e) {
     e.preventDefault();
     const dados = {
@@ -24,17 +24,19 @@ function Sala(props) {
       },
       body: JSON.stringify(dados),
     };
-    
+    const response = await fetch("http://localhost:8000/pergunta/", init);
   }
 
-  useEffect(() => {
-    async function getPerguntas(){
-      const response = await fetch("http://localhost:8000/pergunta/"+id);
-      console.log(response.json())
+  window.onload = function(){
+    async function getPerguntas() {
+      const response = await fetch("http://localhost:8000/pergunta/" + id);
+      const data = await response.json();
+      setPerguntas(data.perguntas);
     }
     getPerguntas();
-    console.log('teste')
-  });
+  }
+
+  
   const content = (
     <div>
       <div className="card">
@@ -63,7 +65,7 @@ function Sala(props) {
                 />
               </div>
             </form>
-            <Perguntas />
+            <Perguntas data={perguntas} />
           </div>
         </div>
       </div>
