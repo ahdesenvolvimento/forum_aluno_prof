@@ -24,7 +24,7 @@ function Sala(props) {
       },
       body: JSON.stringify(dados),
     };
-    const response = await fetch("http://localhost:8000/pergunta/", init);
+    await fetch("http://localhost:8000/pergunta/", init);
   }
 
   window.onload = function(){
@@ -32,6 +32,7 @@ function Sala(props) {
       const response = await fetch("http://localhost:8000/pergunta/" + id);
       const data = await response.json();
       setPerguntas(data.perguntas);
+      // console.log(perguntas[0])
     }
     getPerguntas();
   }
@@ -65,7 +66,7 @@ function Sala(props) {
                 />
               </div>
             </form>
-            <Perguntas data={perguntas} />
+            <Perguntas data={perguntas} idRoom={id} />
           </div>
         </div>
       </div>

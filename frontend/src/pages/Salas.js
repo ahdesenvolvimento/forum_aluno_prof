@@ -25,6 +25,7 @@ function Salas() {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        Authorization: "Bearer " + localStorage.getItem("auth-token-access"),
       },
       body: JSON.stringify(sala),
     };
@@ -32,9 +33,15 @@ function Salas() {
   }
 
   async function checkSala(e) {
-    
+    const init = {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + localStorage.getItem("auth-token-access"),
+      },
+    };
     e.preventDefault();
-    const response = await fetch("http://localhost:8000/sala/" + enter_room);
+    const response = await fetch("http://localhost:8000/sala/" + enter_room, init);
     response.status === 200 ? history.push('/salas/'+enter_room) : history.push('/salas');
     // console.log(resposta);
   }
@@ -123,10 +130,6 @@ function Salas() {
               text="Fechar"
               onClick={handleClose}
             />
-            {/* <Button variant="secondary" onClick={handleClose}>
-            Close
-          </Button> */}
-            {/* <Button variant="primary">Understood</Button> */}
           </Modal.Footer>
         </form>
       </Modal>
