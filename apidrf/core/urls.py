@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import create_pergunta, create_sala, create_usuario, delete_pergunta, delete_sala, delete_usuario, edit_pergunta, example_view, index, login_page, logout_page, resposta_sala, view_perguntas, view_sala
+from .views import LogoutView, create_pergunta, create_sala, create_usuario, delete_pergunta, delete_sala, delete_usuario, edit_pergunta, example_view, index, login_page, logout_page, resposta_sala, view_perguntas, view_sala
 from rest_framework_simplejwt.views import (
     TokenObtainPairView,
     TokenRefreshView,
@@ -19,6 +19,7 @@ urlpatterns = [
     path('resposta/<int:id>', resposta_sala, name="resposta_sala"),
     # path('login/', login_page, name='login'),
     # path('logout/', logout_page, name='logout'),
+    path('logout/', LogoutView.as_view(), name='auth_logout'),
 
 ]
 

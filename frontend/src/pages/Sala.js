@@ -9,6 +9,8 @@ function Sala(props) {
   const { id } = useParams();
   const [pergunta, setPergunta] = useState();
   const [perguntas, setPerguntas] = useState([]);
+
+  const [respostas, setRespostas] = useState([])
   async function cadastrarPergunta(e) {
     e.preventDefault();
     const dados = {
@@ -33,6 +35,8 @@ function Sala(props) {
       const data = await response.json();
       setPerguntas(data.perguntas);
       // console.log(perguntas[0])
+
+      const respostas = await fetch("http://localhost:8000/pergunta/" + id)
     }
     getPerguntas();
   }

@@ -19,7 +19,7 @@ function App() {
   }
   return (
     <div className="App">
-      <Header />
+      <Header log={access_token}/>
       {/* <main>
           <p>123</p><p>123</p><p>123</p><p>123</p><p>123</p>
         </main> */}

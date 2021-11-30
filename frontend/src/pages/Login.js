@@ -36,6 +36,7 @@ console.log(access_token)
         const token_list = JSON.parse(token);
         localStorage.setItem("auth-token-access", token_list["access"]);
         localStorage.setItem("auth-token-refresh", token_list["refresh"]);
+        window.location.href = '/salas/';
         // this.setState({ errorMessage: "", successMessage: "" });
       })
       .catch((error) => {

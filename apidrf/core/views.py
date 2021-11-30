@@ -6,13 +6,18 @@ from rest_framework.decorators import api_view
 from django.contrib.auth import login, logout, authenticate
 from .serializers import *
 from .models import *
-# Create your views here.
 
+# Create your views here.
+from rest_framework import generics
 from rest_framework.authentication import SessionAuthentication, BasicAuthentication
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.decorators import authentication_classes, permission_classes
+
+from rest_framework_simplejwt.tokens import RefreshToken
+# from rest_framework.response import Response
+from rest_framework import status
 
 
 @api_view(['GET'])
@@ -158,8 +163,10 @@ def delete_pergunta(request, id):
 #             serializer.save()
 #         return JsonResponse(, status=200, safe=False)
 
+
 @api_view(['POST'])
 def resposta_sala(request, id):
+    print(id)
     dados = request.data
     if request.method == 'POST':
 
@@ -167,10 +174,23 @@ def resposta_sala(request, id):
             resposta=dados['resposta'], usuario=Usuario.objects.get(id=dados['usuario']))
         resposta_pergunta = PerguntaResposta.objects.create(
             id_pergunta=PerguntaSala.objects.get(id=id), id_resposta=resposta)
-        print(PerguntaResposta.objects.all())
+        print(PerguntaResposta.objects.filter(id_pergunta=id))
         return JsonResponse({'testando': 'testando'}, status=200, safe=False)
     return JsonResponse({'testando': 'testando'}, status=200, safe=False)
 
+# @api_view(['GET'])
+# def view_respostas(request, id):
+#     print(id)
+#     dados = request.data
+#     if request.method == 'POST':
+
+#         resposta = Resposta.objects.create(
+#             resposta=dados['resposta'], usuario=Usuario.objects.get(id=dados['usuario']))
+#         resposta_pergunta = PerguntaResposta.objects.create(
+#             id_pergunta=PerguntaSala.objects.get(id=id), id_resposta=resposta)
+#         print(PerguntaResposta.objects.filter(id_pergunta=id))
+#         return JsonResponse({'testando': 'testando'}, status=200, safe=False)
+#     return JsonResponse({'testando': 'testando'}, status=200, safe=False)
 
 @api_view(['POST', 'GET'])
 def login_page(request):
@@ -186,6 +206,25 @@ def login_page(request):
 
     print(request.user)
     return JsonResponse({'success': '201'}, status=201, safe=False)
+
+@permission_classes([IsAuthenticated])
+class LogoutView(generics.GenericAPIView):
+    serializer_class = LogoutSerializer
+    # permission_classes = (IsAuthenticated,)
+
+    def post(self, request):
+        serializer = self.serializer_class(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+        try:
+            refresh_token = request.data["refresh_token"]
+            token = RefreshToken(refresh_token)
+            token.blacklist()
+
+            return Response(status=status.HTTP_205_RESET_CONTENT)
+        except Exception as e:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
 def logout_page(request):

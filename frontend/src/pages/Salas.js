@@ -42,6 +42,7 @@ function Salas() {
     };
     e.preventDefault();
     const response = await fetch("http://localhost:8000/sala/" + enter_room, init);
+    
     response.status === 200 ? history.push('/salas/'+enter_room) : history.push('/salas');
     // console.log(resposta);
   }
