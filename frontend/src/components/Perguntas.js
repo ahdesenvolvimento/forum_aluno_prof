@@ -3,6 +3,7 @@ import { Modal, Accordion } from "react-bootstrap";
 import TextArea from "./TextArea";
 import Button from "./Button";
 import Input from "./Input";
+import Respostas from "./Respostas";
 function Perguntas({ data, idRoom }) {
   const [color, setColor] = useState();
   const [show, setShow] = useState(false);
@@ -10,6 +11,7 @@ function Perguntas({ data, idRoom }) {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   const [resposta, setResposta] = useState();
+  const [respostas, setRespostas] = useState([]);
 
   async function alterarStatus(e, idPergunta) {
     e.preventDefault();
@@ -19,7 +21,7 @@ function Perguntas({ data, idRoom }) {
         "Content-Type": "application/json",
       },
     };
-    fetch("http://localhost:8000/pergunta/edit/" + idPergunta, init);
+    fetch("http://localhost:8000/pergunta/edit/" + idPergunta, init).then((response) => {window.location.href = '/salas/'+idRoom})
     // handleColor(true);
   }
 
@@ -31,12 +33,11 @@ function Perguntas({ data, idRoom }) {
         "Content-Type": "application/json",
       },
     };
-    fetch("http://localhost:8000/pergunta/delete/" + idPergunta, init);
+    fetch("http://localhost:8000/pergunta/delete/" + idPergunta, init).then((response) => {window.location.href = '/salas/'+idRoom})
     console.log("ops " + idPergunta);
   }
 
   async function responderPergunta(e, id) {
-    // alert(idPergunta);
     e.preventDefault();
     const init = {
       method: "POST",
@@ -45,9 +46,14 @@ function Perguntas({ data, idRoom }) {
       },
       body: JSON.stringify({ resposta: resposta, usuario: "1" }),
     };
-    await fetch("http://localhost:8000/resposta/" + idPergunta, init);
+    await fetch("http://localhost:8000/resposta/" + idPergunta, init).then((response) => {window.location.href = '/salas/'+idRoom})
   }
 
+  async function buscarRespostas(id) {
+    const response = await fetch("http://localhost:8000/get_respostas/" + id);
+    const data = await response.json();
+    setRespostas(data);
+  }
   function handleColor(status) {
     status === true ? setColor("blue") : setColor("red");
     console.log(status);
@@ -65,11 +71,15 @@ function Perguntas({ data, idRoom }) {
                 : { color: "blue" }
             }
           >
-            <Accordion defaultActiveKey="1" style={
-              pergunta.id_pergunta.status === true
-                ? { border: "1px solid red" }
-                : { border: "1px solid blue" }
-            }>
+            <Accordion
+              defaultActiveKey="1"
+              onClick={(e) => buscarRespostas(pergunta.id)}
+              style={
+                pergunta.id_pergunta.status === true
+                  ? { border: "1px solid red" }
+                  : { border: "1px solid blue" }
+              }
+            >
               <Accordion.Item eventKey="0">
                 <Accordion.Header>
                   <div className="card">
@@ -79,14 +89,18 @@ function Perguntas({ data, idRoom }) {
                     <div className="card-footer">
                       <a
                         href="#/"
-                        onClick={(e) => alterarStatus(e, pergunta.id_pergunta.id)}
+                        onClick={(e) =>
+                          alterarStatus(e, pergunta.id_pergunta.id)
+                        }
                         data-id={pergunta.id}
                         className="btn btn-primary mx-2"
                       >
                         Marcar como lida
                       </a>
                       <a
-                        onClick={(e) => deletarPergunta(e, pergunta.id_pergunta.id)}
+                        onClick={(e) =>
+                          deletarPergunta(e, pergunta.id_pergunta.id)
+                        }
                         type="button"
                         data-id={pergunta.id}
                         className="btn btn-outline-primary mx-2"
@@ -105,23 +119,12 @@ function Perguntas({ data, idRoom }) {
                       </a>
                     </div>
                   </div>
-
                 </Accordion.Header>
-                <Accordion.Body>{pergunta.id_pergunta.corpo}</Accordion.Body>
-              </Accordion.Item>
-              {/* <Accordion.Item eventKey="1">
-                <Accordion.Header>Accordion Item #2</Accordion.Header>
                 <Accordion.Body>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                  do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                  Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                  laboris nisi ut aliquip ex ea commodo consequat. Duis aute
-                  irure dolor in reprehenderit in voluptate velit esse cillum
-                  dolore eu fugiat nulla pariatur. Excepteur sint occaecat
-                  cupidatat non proident, sunt in culpa qui officia deserunt
-                  mollit anim id est laborum.
+                  <Respostas content={respostas.respostas} idPergunta={pergunta.id}/>
+                  
                 </Accordion.Body>
-              </Accordion.Item> */}
+              </Accordion.Item>
             </Accordion>
             <Modal
               show={show}

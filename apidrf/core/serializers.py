@@ -18,7 +18,7 @@ class UsuarioSerializer(serializers.ModelSerializer):
 class SalaSerializer(serializers.ModelSerializer):
     class Meta:
         model = Sala
-        fields = ['entrar', 'descricao', 'tags', 'dono']
+        fields = ['entrar', 'descricao', 'tags', 'dono', 'id']
 
 
 class CheckSala(serializers.ModelSerializer):
@@ -39,6 +39,20 @@ class PerguntasSerializer(serializers.ModelSerializer):
     class Meta:
         model = PerguntaSala
         fields = ('data', 'hora', 'id', 'id_pergunta', 'id_sala')
+
+
+class RespostaSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Resposta
+        fields = '__all__'
+
+
+class RespostasSerializer(serializers.ModelSerializer):
+    id_resposta = RespostaSerializer()
+
+    class Meta:
+        model = PerguntaResposta
+        fields = ('data', 'hora', 'id', 'id_resposta', 'id_pergunta')
 
 
 class LogoutSerializer(serializers.Serializer):

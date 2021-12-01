@@ -72,6 +72,19 @@ def view_sala(request, id):
         # return JsonResponse({'testando':'testando'}, status=200, safe=False)
     return JsonResponse({'testando': 'testando'}, status=200, safe=False)
 
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def get_salas(request):
+    # dados_sala = request.data
+    if request.method == 'GET':
+        salas = SalaSerializer(Sala.objects.all(), many=True)
+        return JsonResponse({'salas': salas.data}, status=200, safe=False)
+
+        # serializer = CheckSala(data=dados_sala, many=False)
+        # if serializer.is_valid():
+        #     serializer.save()
+        # return JsonResponse({'testando':'testando'}, status=200, safe=False)
+    return JsonResponse({'testando': 'testando'}, status=200, safe=False)
 
 @api_view(['POST', 'GET'])
 # @permission_classes([IsAuthenticated])
@@ -152,18 +165,6 @@ def delete_pergunta(request, id):
         return JsonResponse({'perguntas': 'deletada'}, status=200, safe=False)
     return JsonResponse({'perguntas': 'deletada'}, status=404, safe=False)
 
-# def create_usuario(request):
-#     print(Usuario.objects.all())
-#     dados_usuario = request.data
-#     # print(dados_usuario)
-#     if request.method == 'POST':
-#         serializer = UsuarioSerializer(data=dados_usuario, many=True)
-#         print(serializer)
-#         if serializer.is_valid():
-#             # pass
-#             serializer.save()
-#         return JsonResponse(, status=200, safe=False)
-
 
 @api_view(['POST'])
 def resposta_sala(request, id):
@@ -179,19 +180,16 @@ def resposta_sala(request, id):
         return JsonResponse({'testando': 'testando'}, status=200, safe=False)
     return JsonResponse({'testando': 'testando'}, status=200, safe=False)
 
-# @api_view(['GET'])
-# def view_respostas(request, id):
-#     print(id)
-#     dados = request.data
-#     if request.method == 'POST':
 
-#         resposta = Resposta.objects.create(
-#             resposta=dados['resposta'], usuario=Usuario.objects.get(id=dados['usuario']))
-#         resposta_pergunta = PerguntaResposta.objects.create(
-#             id_pergunta=PerguntaSala.objects.get(id=id), id_resposta=resposta)
-#         print(PerguntaResposta.objects.filter(id_pergunta=id))
-#         return JsonResponse({'testando': 'testando'}, status=200, safe=False)
-#     return JsonResponse({'testando': 'testando'}, status=200, safe=False)
+@api_view(['GET'])
+def get_respostas(request, id):
+    dados = request.data
+    if request.method == 'GET':
+        respostas = RespostasSerializer(
+            PerguntaResposta.objects.filter(id_pergunta=id), many=True)
+        return JsonResponse({"respostas": respostas.data}, status=200, safe=False)
+    return JsonResponse({'testando': 'testando'}, status=200, safe=False)
+
 
 @api_view(['POST', 'GET'])
 def login_page(request):
@@ -207,6 +205,7 @@ def login_page(request):
 
     print(request.user)
     return JsonResponse({'success': '201'}, status=201, safe=False)
+
 
 @permission_classes([IsAuthenticated])
 class LogoutView(generics.GenericAPIView):

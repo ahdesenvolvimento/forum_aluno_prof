@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
 from pathlib import Path
+import datetime
 import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -55,6 +56,20 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     )
+}
+
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': datetime.timedelta(minutes=60),
+    'REFRESH_TOKEN_LIFETIME': datetime.timedelta(days=1),
+    # # how long the original token is valid for
+    # 'JWT_EXPIRATION_DELTA': datetime.timedelta(days=2),
+
+    # # allow refreshing of tokens
+    # 'JWT_ALLOW_REFRESH': True,
+
+    # # this is the maximum time AFTER the token was issued that
+    # # it can be refreshed.  exprired tokens can't be refreshed.
+    # 'JWT_REFRESH_EXPIRATION_DELTA': datetime.timedelta(days=7),
 }
 
 MIDDLEWARE = [

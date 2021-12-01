@@ -10,7 +10,7 @@ function Sala(props) {
   const [pergunta, setPergunta] = useState();
   const [perguntas, setPerguntas] = useState([]);
 
-  const [respostas, setRespostas] = useState([])
+  const [respostas, setRespostas] = useState([]);
   async function cadastrarPergunta(e) {
     e.preventDefault();
     const dados = {
@@ -26,24 +26,22 @@ function Sala(props) {
       },
       body: JSON.stringify(dados),
     };
-    await fetch("http://localhost:8000/pergunta/", init)
-    .then((response) => {
-      window.location.href = '/salas/'+id;
-    })
+    await fetch("http://localhost:8000/pergunta/", init).then((response) => {
+      window.location.href = "/salas/" + id;
+    });
   }
 
-  window.onload = function(){
-    async function getPerguntas() {
-      const response = await fetch("http://localhost:8000/pergunta/" + id);
-      const data = await response.json();
-      setPerguntas(data.perguntas);
+  // window.onload = function(){
+  async function getPerguntas() {
+    const response = await fetch("http://localhost:8000/pergunta/" + id);
+    const data = await response.json();
+    setPerguntas(data.perguntas);
+  }
 
-      const respostas = await fetch("http://localhost:8000/pergunta/" + id)
-    }
+  useEffect(() => {
     getPerguntas();
-  }
+  }, []);
 
-  
   const content = (
     <div>
       <div className="card">

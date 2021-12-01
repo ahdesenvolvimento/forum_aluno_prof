@@ -2,13 +2,14 @@ import Main from "../layout/Main";
 import Input from "../components/Input";
 import Button from "../components/Button";
 import { Modal } from "react-bootstrap";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 function Salas() {
   const [show, setShow] = useState(false);
+  const [salas, setSalas] = useState([]);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-  let history = useHistory()
+  let history = useHistory();
 
   const [descricao, setDescricao] = useState();
   const [tags, setTags] = useState();
@@ -29,10 +30,9 @@ function Salas() {
       },
       body: JSON.stringify(sala),
     };
-    await fetch("http://localhost:8000/sala/", init)
-      .then((response) => {
-        window.location.href = '/salas/';
-      })
+    await fetch("http://localhost:8000/sala/", init).then((response) => {
+      window.location.href = "/salas/";
+    });
   }
 
   async function checkSala(e) {
@@ -44,16 +44,39 @@ function Salas() {
       },
     };
     e.preventDefault();
-    const response = await fetch("http://localhost:8000/sala/" + enter_room, init);
+    const response = await fetch(
+      "http://localhost:8000/sala/" + enter_room,
+      init
+    );
 
-    response.status === 200 ? history.push('/salas/' + enter_room) : history.push('/salas');
+    response.status === 200
+      ? history.push("/salas/" + enter_room)
+      : history.push("/salas");
     // console.log(resposta);
   }
 
+  async function getSalas() {
+    const init = {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + localStorage.getItem("auth-token-access"),
+      },
+    };
+    const response = await fetch("http://localhost:8000/get_salas/", init);
+    const data = await response.json();
+    setSalas(data.salas);
+  }
+
+  useEffect(() => {
+    getSalas();
+    // Atualiza o titulo do documento usando a API do browser
+    // document.title = `Você clicou ${count} vezes`;
+  }, []);
   const content = (
     <div>
       <div className="card">
-        <div className="card-body" style={{ minHeight: "88vh" }}>
+        <div className="card-body">
           <form action="" method="GET" onSubmit={(e) => checkSala(e)}>
             <div className="row">
               <div className="col-md-12 mb-3 d-flex justify-content-center">
@@ -90,7 +113,25 @@ function Salas() {
             </div>
           </form>
         </div>
+        <div className="card">
+          <div className="card-header">Salas disponíveis</div>
+          <div className="card-body">
+            {salas.map((sala) => (
+              <form action="" method="GET" onSubmit={(e) => checkSala(e)}>
+                <div>
+                  <Button
+                    type="submit"
+                    className="btn btn-primary mb-3 w-100"
+                    text={'Entrar '+sala.id}
+                    onClick={(e) => setEnterRoom(sala.id)}
+                  />
+                </div>
+              </form>
+            ))}
+          </div>
+        </div>
       </div>
+
       <Modal
         show={show}
         onHide={handleClose}
