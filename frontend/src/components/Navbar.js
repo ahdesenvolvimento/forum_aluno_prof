@@ -1,20 +1,19 @@
 import { Container, Navbar as Navigation, Nav } from "react-bootstrap";
 import {
   BrowserRouter as Router,
-  Link,
+  // Link,
   Switch,
   Route,
   Redirect,
-  useHistory,
+  // useHistory,
 } from "react-router-dom";
 import Login from "../pages/Login";
 import Cadastro from "../pages/Cadastro";
 import Home from "../pages/Home";
-import Error404 from "../pages/Error404";
+// import Error404 from "../pages/Error404";
 import Salas from "../pages/Salas";
 import Sala from "../pages/Sala";
 function Navbar({ colorBack, logado }) {
-  let history = useHistory();
   async function logout(e) {
     e.preventDefault();
     const init = {
@@ -27,13 +26,10 @@ function Navbar({ colorBack, logado }) {
         refresh: localStorage.getItem("auth-token-refresh"),
       }),
     };
-    console.log(init);
     fetch("http://localhost:8000/logout/", init).then((token) => {
       localStorage.removeItem("auth-token-access");
       localStorage.removeItem("auth-token-refresh");
       window.location.href = "/login/";
-      // console.log(history)
-      // history.push("/login/");
     });
   }
 
@@ -72,13 +68,6 @@ function Navbar({ colorBack, logado }) {
           <Route path="/cadastro">
             <Cadastro />
           </Route>
-          {/* <Route path="/salas/:id/">
-            <Sala />
-          </Route>
-          <Route exact path="/salas">
-            <Salas />
-          </Route> */}
-          {/* <Route path="*" render={Error404} /> */}
           {logado && logado.length > 0 ? (
             <>
               <Route path="/salas/:id/">
@@ -87,7 +76,6 @@ function Navbar({ colorBack, logado }) {
               <Route exact path="/salas">
                 <Salas />
               </Route>
-              {/* <Route path="*" render={Error404} /> */}
             </>
           ) : (
             <Route path="*">
@@ -96,7 +84,6 @@ function Navbar({ colorBack, logado }) {
           )}
           <Route path="*">
             <Redirect to="/" />
-            {/* <Error404 /> */}
           </Route>
         </Switch>
       </Router>

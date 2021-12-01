@@ -41,14 +41,6 @@ class Created(models.Model):
         abstract = True
 
 
-# class Perfil(Created):
-#     id = models.AutoField(primary_key=True)
-#     perfil = models.CharField(max_length=255, blank=False, null=False)
-
-#     class Meta:
-#         db_table = 'perfil'
-
-
 class Usuario(AbstractUser):
     # id = models.AutoField(primary_key=True)
     # nome = models.CharField(max_length=255, blank=False, null=False)
@@ -62,17 +54,6 @@ class Usuario(AbstractUser):
 
     class Meta:
         db_table = 'usuario'
-
-
-# class UsuarioPerfil(Created):
-#     id = models.AutoField(primary_key=True)
-#     id_usuario = models.ForeignKey(
-#         Usuario, on_delete=models.CASCADE, null=True, blank=True)
-#     id_perfil = models.ForeignKey(
-#         Perfil, on_delete=models.CASCADE, null=True, blank=True)
-
-#     class Meta:
-#         db_table = 'usuario_perfil'
 
 
 class Sala(Created):

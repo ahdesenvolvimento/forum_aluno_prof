@@ -10,7 +10,6 @@ function Sala(props) {
   const [pergunta, setPergunta] = useState();
   const [perguntas, setPerguntas] = useState([]);
 
-  const [respostas, setRespostas] = useState([]);
   async function cadastrarPergunta(e) {
     e.preventDefault();
     const dados = {
