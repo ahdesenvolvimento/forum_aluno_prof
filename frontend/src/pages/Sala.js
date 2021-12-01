@@ -26,7 +26,10 @@ function Sala(props) {
       },
       body: JSON.stringify(dados),
     };
-    await fetch("http://localhost:8000/pergunta/", init);
+    await fetch("http://localhost:8000/pergunta/", init)
+    .then((response) => {
+      window.location.href = '/salas/'+id;
+    })
   }
 
   window.onload = function(){
@@ -34,7 +37,6 @@ function Sala(props) {
       const response = await fetch("http://localhost:8000/pergunta/" + id);
       const data = await response.json();
       setPerguntas(data.perguntas);
-      // console.log(perguntas[0])
 
       const respostas = await fetch("http://localhost:8000/pergunta/" + id)
     }

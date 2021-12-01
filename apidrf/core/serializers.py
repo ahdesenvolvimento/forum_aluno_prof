@@ -3,20 +3,16 @@ from django.db.models import fields
 from rest_framework import serializers
 from rest_framework_simplejwt.tokens import RefreshToken, TokenError
 from .models import *
+from django.contrib.auth.hashers import make_password
 
 
 class UsuarioSerializer(serializers.ModelSerializer):
+    def validate_password(self, value: str) -> str:
+        return make_password(value)
+
     class Meta:
         model = Usuario
         fields = ('first_name', 'last_name', 'username', 'password', 'email')
-
-    # def save(self, commit=True):
-    #     user = super(UsuarioSerializer, self).save(commit=False)
-    #     user.set_password(self.cleaned_data['password'])
-    #     if commit:
-    #         user.save()
-    #     return user
-    # def create(self, vali)
 
 
 class SalaSerializer(serializers.ModelSerializer):
@@ -47,9 +43,9 @@ class PerguntasSerializer(serializers.ModelSerializer):
 
 class LogoutSerializer(serializers.Serializer):
     refresh = serializers.CharField()
-    
+
     default_error_messages = {
-        'bad token':('Token is expired or invalid')
+        'bad token': ('Token is expired or invalid')
     }
 
     def validate(self, attrs):

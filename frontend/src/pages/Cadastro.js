@@ -4,6 +4,10 @@ import { Button, Card } from "react-bootstrap";
 import { useState } from "react";
 
 function Cadastro() {
+  const [first_name, setFirstName] = useState();
+  const [last_name, setLastName] = useState();
+  const [email, setEmail] = useState();
+  const [password, setPassword] = useState();
   const cadastrarUsuario = async (e) => {
     e.preventDefault();
     const usuario = {
@@ -20,14 +24,13 @@ function Cadastro() {
       },
       body: JSON.stringify(usuario),
     };
-    await fetch("http://localhost:8000/usuario/", init);
+    await fetch("http://localhost:8000/usuario/", init)
+      .then((response) => {
+        window.location.href = '/login';
+      })
 
-    // alert(first_name);
   };
-  const [first_name, setFirstName] = useState();
-  const [last_name, setLastName] = useState();
-  const [email, setEmail] = useState();
-  const [password, setPassword] = useState();
+
   const content = (
     <div>
       <form action="" method="POST" onSubmit={(e) => cadastrarUsuario(e)}>

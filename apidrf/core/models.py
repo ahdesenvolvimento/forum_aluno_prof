@@ -55,9 +55,9 @@ class Usuario(AbstractUser):
     email = models.EmailField(
         max_length=255, blank=False, null=False, unique=True)
     status = models.BooleanField(default=True)
-    token = models.CharField(max_length=255, null=True, blank=True)
+    # token = models.CharField(max_length=255, null=True, blank=True)
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['username', 'first_name', 'last_name', 'token']
+    REQUIRED_FIELDS = ['username', 'first_name', 'last_name']
     objects = BaseManager()
 
     class Meta:

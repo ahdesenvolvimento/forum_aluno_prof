@@ -29,7 +29,10 @@ function Salas() {
       },
       body: JSON.stringify(sala),
     };
-    await fetch("http://localhost:8000/sala/", init);
+    await fetch("http://localhost:8000/sala/", init)
+      .then((response) => {
+        window.location.href = '/salas/';
+      })
   }
 
   async function checkSala(e) {
@@ -42,8 +45,8 @@ function Salas() {
     };
     e.preventDefault();
     const response = await fetch("http://localhost:8000/sala/" + enter_room, init);
-    
-    response.status === 200 ? history.push('/salas/'+enter_room) : history.push('/salas');
+
+    response.status === 200 ? history.push('/salas/' + enter_room) : history.push('/salas');
     // console.log(resposta);
   }
 

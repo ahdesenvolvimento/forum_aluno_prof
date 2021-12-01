@@ -47,6 +47,7 @@ def create_usuario(request):
     dados_usuario = request.data
     if request.method == 'POST':
         serializer = UsuarioSerializer(data=dados_usuario, many=False)
+        print(serializer)
         if serializer.is_valid():
             serializer.save()
         return JsonResponse({'testando': 'testando'}, status=200, safe=False)
