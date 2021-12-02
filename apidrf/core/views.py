@@ -21,7 +21,7 @@ from rest_framework import status
 
 
 @api_view(['GET'])
-@permission_classes([IsAuthenticated])
+# @permission_classes([IsAuthenticated])
 def index(request):
     if request.method == 'GET':
         return JsonResponse({"index": "index"}, status=200, safe=False)
@@ -44,7 +44,7 @@ def create_usuario(request):
 
 
 @api_view(['GET'])
-@permission_classes([IsAuthenticated])
+# @permission_classes([IsAuthenticated])
 def view_sala(request, id):
     dados_sala = request.data
     if request.method == 'GET':
@@ -52,7 +52,7 @@ def view_sala(request, id):
     return JsonResponse({'Error': 'Método não permitido'}, status=401, safe=False)
 
 @api_view(['GET'])
-@permission_classes([IsAuthenticated])
+# @permission_classes([IsAuthenticated])
 def get_salas(request):
     if request.method == 'GET':
         salas = SalaSerializer(Sala.objects.all(), many=True)
@@ -60,7 +60,7 @@ def get_salas(request):
     return JsonResponse({'Error': 'Método não permitido'}, status=401, safe=False)
 
 @api_view(['POST', 'GET'])
-@permission_classes([IsAuthenticated])
+# @permission_classes([IsAuthenticated])
 def create_sala(request):
     dados_sala = request.data
     if request.method == 'POST':
@@ -72,7 +72,7 @@ def create_sala(request):
 
 
 @api_view(['DELETE'])
-@permission_classes([IsAuthenticated])
+# @permission_classes([IsAuthenticated])
 def delete_sala(request, id):
     if request.method == 'DELETE':
         sala = Sala.objects.filter(id=id)
@@ -82,7 +82,7 @@ def delete_sala(request, id):
 
 
 @api_view(['POST', 'GET'])
-@permission_classes([IsAuthenticated])
+# @permission_classes([IsAuthenticated])
 def create_pergunta(request):
     dados_pergunta = request.data
     if request.method == 'POST':
@@ -95,7 +95,7 @@ def create_pergunta(request):
 
 
 @api_view(['GET'])
-@permission_classes([IsAuthenticated])
+# @permission_classes([IsAuthenticated])
 def view_perguntas(request, id):
     if request.method == 'GET':
         perguntas = PerguntasSerializer(PerguntaSala.objects.select_related(
@@ -104,7 +104,7 @@ def view_perguntas(request, id):
     return JsonResponse({'Error': 'Método não permitido'}, status=401, safe=False)
 
 @api_view(['PUT'])
-@permission_classes([IsAuthenticated])
+# @permission_classes([IsAuthenticated])
 def edit_pergunta(request, id):
     if request.method == 'PUT':
         Perguntas.objects.filter(id=id).update(status=True)
@@ -113,7 +113,7 @@ def edit_pergunta(request, id):
 
 
 @api_view(['DELETE'])
-@permission_classes([IsAuthenticated])
+# @permission_classes([IsAuthenticated])
 def delete_pergunta(request, id):
     if request.method == 'DELETE':
         Perguntas.objects.filter(id=id).delete()
@@ -122,7 +122,7 @@ def delete_pergunta(request, id):
 
 
 @api_view(['POST'])
-@permission_classes([IsAuthenticated])
+# @permission_classes([IsAuthenticated])
 def resposta_sala(request, id):
     dados = request.data
     if request.method == 'POST':
@@ -135,7 +135,7 @@ def resposta_sala(request, id):
 
 
 @api_view(['GET'])
-@permission_classes([IsAuthenticated])
+# @permission_classes([IsAuthenticated])
 def get_respostas(request, id):
     dados = request.data
     if request.method == 'GET':
@@ -145,7 +145,7 @@ def get_respostas(request, id):
     return JsonResponse({'error': 'error'}, status=200, safe=False)
 
 
-@permission_classes([IsAuthenticated])
+# @permission_classes([IsAuthenticated])
 class LogoutView(generics.GenericAPIView):
     serializer_class = LogoutSerializer
     # permission_classes = (IsAuthenticated,)

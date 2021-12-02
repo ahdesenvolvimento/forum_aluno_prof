@@ -18,7 +18,8 @@ function Perguntas({ data, idRoom }) {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
-      },
+        Authorization: "Bearer " + localStorage.getItem("auth-token-access")
+      }
     };
     fetch("http://localhost:8000/pergunta/edit/" + idPergunta, init).then(
       (response) => {
@@ -33,14 +34,15 @@ function Perguntas({ data, idRoom }) {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
-      },
+        Authorization: "Bearer " + localStorage.getItem("auth-token-access")
+      }
     };
     fetch("http://localhost:8000/pergunta/delete/" + idPergunta, init).then(
       (response) => {
         window.location.href = "/salas/" + idRoom;
       }
     );
-    console.log("ops " + idPergunta);
+
   }
 
   async function responderPergunta(e, id) {
@@ -49,6 +51,7 @@ function Perguntas({ data, idRoom }) {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        Authorization: "Bearer " + localStorage.getItem("auth-token-access")
       },
       body: JSON.stringify({ resposta: resposta, usuario: "1" }),
     };
@@ -66,7 +69,7 @@ function Perguntas({ data, idRoom }) {
   }
   return (
     <>
-      {data.map((pergunta) => {
+      {data !== undefined && data.map((pergunta) => {
         return (
           <div
             className="col-md-12 mb-3"

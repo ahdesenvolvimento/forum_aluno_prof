@@ -22,6 +22,7 @@ function Sala(props) {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        Authorization: "Bearer " + localStorage.getItem("auth-token-access"),
       },
       body: JSON.stringify(dados),
     };
@@ -32,7 +33,14 @@ function Sala(props) {
 
   // window.onload = function(){
   async function getPerguntas() {
-    const response = await fetch("http://localhost:8000/pergunta/" + id);
+    const init = {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + localStorage.getItem("auth-token-access"),
+      },
+    };
+    const response = await fetch("http://localhost:8000/pergunta/" + id, init);
     const data = await response.json();
     setPerguntas(data.perguntas);
   }
